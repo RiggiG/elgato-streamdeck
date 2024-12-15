@@ -37,10 +37,17 @@ pub const AJAZZ_VENDOR_ID_2: u16 = 0x0300;
 /// Product ID of Ajazz AKP153E Desk Controller
 pub const PID_AJAZZ_E_AKP153E: u16 = 0x1010;
 
+// Vendor ID for Mountain products
+pub const MOUNTAIN_VENDOR_ID: u16 = 0x3282;
+
+// Product ID for Mountain Display Pad
+pub const PID_MOUNTAIN_DISPLAYPAD: u16 = 0x0009;
+
 const RECOGNIZED_VENDORS: &'static [u16] = &[
     ELGATO_VENDOR_ID,
     AJAZZ_VENDOR_ID_1,
-    AJAZZ_VENDOR_ID_2
+    AJAZZ_VENDOR_ID_2,
+    MOUNTAIN_VENDOR_ID
 ];
 
 /// Returns true for vendors IDs that are recognized by the library
@@ -78,6 +85,8 @@ pub enum Kind {
     Akp153E,
     /// Ajazz Akl982 Desk Controller
     Akp815,
+    /// Mountain DisplayPad
+    DisplayPad,
 }
 
 impl Kind {
@@ -103,6 +112,11 @@ impl Kind {
                 PID_AJAZZ_E_AKP153E => Some(Kind::Akp153E),
                 PID_AJAZZ_AKP815 => Some(Kind::Akp815),
                 _ => None
+            },
+
+            MOUNTAIN_VENDOR_ID => match pid {
+                PID_MOUNTAIN_DISPLAYPAD=> Some(Kind::DisplayPad),
+                _ => None
             }
             
             _ => None
@@ -125,6 +139,7 @@ impl Kind {
             Kind::Akp153 => PID_AJAZZ_AKP153,
             Kind::Akp815 => PID_AJAZZ_AKP815,
             Kind::Akp153E => PID_AJAZZ_E_AKP153E,
+            Kind::DisplayPad => PID_MOUNTAIN_DISPLAYPAD,
         }
     }
 
@@ -144,6 +159,7 @@ impl Kind {
             Kind::Akp153 => AJAZZ_VENDOR_ID_1,
             Kind::Akp815 => AJAZZ_VENDOR_ID_1,
             Kind::Akp153E => AJAZZ_VENDOR_ID_2,
+            Kind::DisplayPad => MOUNTAIN_VENDOR_ID,
         }
     }
 
@@ -157,6 +173,7 @@ impl Kind {
             Kind::Neo | Kind::Plus => 8,
             Kind::Akp153 | Kind::Akp153E => 15 + 3,
             Kind::Akp815 => 15,
+            Kind::DisplayPad => 12,
         }
     }
 
@@ -169,7 +186,8 @@ impl Kind {
             Kind::Pedal => 1,
             Kind::Neo | Kind::Plus => 2,
             Kind::Akp153 | Kind::Akp153E => 3,
-            Kind::Akp815 =>5,
+            Kind::Akp815 => 5,
+            Kind::DisplayPad => 2,
         }
     }
 
@@ -183,6 +201,7 @@ impl Kind {
             Kind::Neo | Kind::Plus => 4,
             Kind::Akp153 | Kind::Akp153E => 6,
             Kind::Akp815 => 3,
+            Kind::DisplayPad => 6
         }
     }
 
@@ -277,6 +296,13 @@ impl Kind {
                 mode: ImageMode::JPEG,
                 size: (100, 100),
                 rotation: ImageRotation::Rot180,
+                mirror: ImageMirroring::None,
+            },
+
+            Kind::DisplayPad => ImageFormat {
+                mode: ImageMode::JPEG,
+                size: (102, 102),
+                rotation: ImageRotation::Rot0,
                 mirror: ImageMirroring::None,
             },
         }

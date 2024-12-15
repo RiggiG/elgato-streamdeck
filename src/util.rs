@@ -96,6 +96,12 @@ pub fn extract_str(bytes: &[u8]) -> Result<String, Utf8Error> {
  | 03 | 02 | 01 |
   --------------
 
+ Mountain DisplayPad key index
+  -----------------------------
+ | 01 | 02 | 03 | 04 | 05 | 06 |
+ |----|----|----|----|----|----|
+ | 07 | 08 | 09 | 10 | 11 | 12 |
+  -----------------------------
 */
 
 /// Converts Elgato key index to Ajazz key index
