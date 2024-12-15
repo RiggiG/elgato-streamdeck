@@ -343,6 +343,15 @@ impl StreamDeck {
                 Ok(())
             }
 
+            Kind::DisplayPad => {
+                let mut buf = vec![0x12, 0x03, 0x00, 0x00, percent];
+
+                buf.extend(vec![0u8; 64 - buf.len()]);
+
+                write_data(&self.device, buf.as_slice())?;
+                Ok(())
+            }
+
             _ => {
                 let mut buf = vec![0x03, 0x08, percent];
 
